@@ -29,12 +29,12 @@ if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $birth_date)) {
     echo "Error: Invalid date format. Please use YYYY-MM-DD.";
     exit();
 }
-{// Validate names contain only alphabetical characters
+// Validate names contain only alphabetical characters
     if (!ctype_alpha($first_name) || !ctype_alpha($last_name)) {
         echo "Error: First and last names should only contain alphabetical characters.";
         exit()
     }
-    {// Validate grade contains only numeric characters
+    // Validate grade contains only numeric characters
         if (!is_numeric($grade)) {
             echo "Error: Grade must be a numeric value.";
             exit();
@@ -48,10 +48,10 @@ if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $birth_date)) {
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
-    } else {
+     else {
         echo "Form data is incomplete or invalid.";
     }
-} else {
+ else {
     echo "Invalid request.";
 }
 
