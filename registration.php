@@ -19,13 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $grade = mysqli_real_escape_string($conn, $_POST['grade']);
         $school_name = mysqli_real_escape_string($conn, $_POST['school_name']);
 
-        // Validate data (you can add more specific validation as needed)
+        // Validate data 
         if (!is_numeric($ID)) {
             echo "Error: ID must be a numeric value.";
             exit();
         }
-
-        // Add more validation as needed...
+// Validate date format (assuming YYYY-MM-DD format)
+if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $birth_date)) {
+    echo "Error: Invalid date format. Please use YYYY-MM-DD.";
+    exit();
+}
 
         // SQL query to insert data
         $sql = "INSERT INTO registration (ID, firstname, lastname, gender, grade, birthdate, schoolname) 
