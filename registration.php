@@ -9,23 +9,16 @@ $errors = array();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Check if form data is present
     if (
-        isset($_POST['ID'], $_POST['first_name'], $_POST['last_name'], $_POST['birth_date'], $_POST['gender'], $_POST['grade'], $_POST['school_name'])
-        && !empty($_POST['ID']) && !empty($_POST['first_name']) && !empty($_POST['last_name'])
-        && !empty($_POST['birth_date']) && !empty($_POST['gender']) && !empty($_POST['grade']) && !empty($_POST['school_name'])
+        isset($_POST['first_name'], $_POST['last_name'], $_POST['birth_date'], $_POST['gender'], $_POST['grade'], $_POST['school_name'])
+        && !empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['birth_date']) && !empty($_POST['gender']) && !empty($_POST['grade']) && !empty($_POST['school_name'])
     ) {
         // Retrieve form data
-        $ID = mysqli_real_escape_string($conn, $_POST['ID']);
         $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
         $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
         $birth_date = mysqli_real_escape_string($conn, $_POST['birth_date']);
         $gender = mysqli_real_escape_string($conn, $_POST['gender']);
         $grade = mysqli_real_escape_string($conn, $_POST['grade']);
         $school_name = mysqli_real_escape_string($conn, $_POST['school_name']);
-
-        // Validate data
-        if (!is_numeric($ID)) {
-            $errors[] = "ID must be a numeric value.";
-        }
 
         // Validate names contain only alphabetical characters
         if (!ctype_alpha($first_name) || !ctype_alpha($last_name)) {
@@ -45,8 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // If there are no errors, proceed with database insertion
         if (empty($errors)) {
             // SQL query to insert data
-            $sql = "INSERT INTO registration (ID, firstname, lastname, gender, grade, birthdate, schoolname) 
-                    VALUES ('$ID', '$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name')";
+            $sql = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolname) 
+                    VALUES ('$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name')";
 
             if ($conn->query($sql) === TRUE) {
                 echo "Registration successful!";
@@ -92,21 +85,26 @@ $conn->close();
     ?>
 
     <form action="registration.php" method="post">
-        <label for="ID">ID:</label>
-        <input type="number" name="ID" required><br>
-
+        
         <label for="first_name">First Name:</label>
         <input type="text" name="first_name" required><br>
 
         <label for="last_name">Last Name:</label>
         <input type="text" name="last_name" required><br>
 
-        <label for="gender">Gender:</label>
-        <select name="gender" required>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select><br>
-
+        <h2>Select Gender</h2>
+    <form action="process_form.php" method="post">
+        <label>
+            <input type="radio" name="gender" value="male" required>
+            Male
+        </label>
+        <label>
+            <input type="radio" name="gender" value="female" required>
+            Female
+        </label>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
         <label for="birth_date">Date of Birth:</label>
         <input type="date" name="birth_date" required><br>
 
