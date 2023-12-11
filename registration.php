@@ -1,63 +1,3 @@
-<?php
-
-// Include the database connection file
-include 'database.php';
-
-// Initialize an array to store error messages
-$errors = array();
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Check if form data is present
-    if (
-        isset($_POST['first_name'], $_POST['last_name'], $_POST['birth_date'], $_POST['gender'], $_POST['grade'], $_POST['school_name'])
-        && !empty($_POST['first_name']) && !empty($_POST['last_name']) && !empty($_POST['birth_date']) && !empty($_POST['gender']) && !empty($_POST['grade']) && !empty($_POST['school_name'])
-    ) {
-        // Retrieve form data
-        $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
-        $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
-        $birth_date = mysqli_real_escape_string($conn, $_POST['birth_date']);
-        $gender = mysqli_real_escape_string($conn, $_POST['gender']);
-        $grade = mysqli_real_escape_string($conn, $_POST['grade']);
-        $school_name = mysqli_real_escape_string($conn, $_POST['school_name']);
-
-        // Validate names contain only alphabetical characters
-        if (!ctype_alpha($first_name) || !ctype_alpha($last_name)) {
-            $errors[] = "First and last names should only contain alphabetical characters.";
-        }
-
-        // Validate grade contains only numeric characters
-        if (!is_numeric($grade)) {
-            $errors[] = "Grade must be a numeric value.";
-        }
-
-        // Validate date format (assuming YYYY-MM-DD format)
-        if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $birth_date)) {
-            $errors[] = "Invalid date format. Please use YYYY-MM-DD.";
-        }
-
-        // If there are no errors, proceed with database insertion
-        if (empty($errors)) {
-            // SQL query to insert data
-            $sql = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolname) 
-                    VALUES ('$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name')";
-
-            if ($conn->query($sql) === TRUE) {
-                echo "Registration successful!";
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
-        }
-    } else {
-        $errors[] = "Form data is incomplete or invalid.";
-    }
-} else {
-    $errors[] = "Invalid request.";
-}
-
-// Close the database connection
-$conn->close();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -93,18 +33,17 @@ $conn->close();
         <input type="text" name="last_name" required><br>
 
         <h2>Select Gender</h2>
-    <form action="process_form.php" method="post">
+    <form action="registration.php" method="post">
         <label>
             <input type="radio" name="gender" value="male" required>
             Male
         </label>
+
         <label>
             <input type="radio" name="gender" value="female" required>
             Female
         </label>
-        <br>
-        <input type="submit" value="Submit">
-    </form>
+
         <label for="birth_date">Date of Birth:</label>
         <input type="date" name="birth_date" required><br>
 

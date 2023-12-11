@@ -1,35 +1,35 @@
 form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-width: 350px;
-    padding: 20px;
+    gap: 5px;
+    max-width: 300px;
+    padding: 15px;
     border-radius: 20px;
     position: center;
-    backgrund-color: #196a99;
-    color: #c17272;
+    backgrund-color: #36a5e5;
+    color: #b96565;
     border: 1px solid #1f5ba5;
   }
   
   title {
-    font-size: 28px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 500;
     letter-spacing: -1px;
     position: relative;
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    padding-left: 15px;
     color: #00bfff;
   }
   
   title::before {
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
   }
   
   title::after {
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
     animation: pulse 1s linear infinite;
   }
   
@@ -37,8 +37,8 @@ form {
   title::after {
     position: absolute;
     content: "";
-    height: 16px;
-    width: 16px;
+    height: 12px;
+    width: 12px;
     border-radius: 50%;
     left: 0px;
     background-color: #00bfff;
@@ -46,8 +46,8 @@ form {
   
   message, 
   signin {
-    font-size: 14.5px;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 12.5px;
+    color: rgba(127, 207, 233, 0.7);
   }
   
   signin {
@@ -74,7 +74,7 @@ form {
   
   form label .input {
     background-color: #981a1a;
-    color: #fff;
+    color: #53b7ea;
     width: 100%;
     padding: 20px 05px 05px 10px;
     outline: 0;
@@ -114,7 +114,7 @@ form {
     outline: none;
     padding: 10px;
     border-radius: 10px;
-    color: #fff;
+    color: #369ddd;
     font-size: 16px;
     transform: .3s ease;
     background-color: #00bfff;
