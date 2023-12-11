@@ -3,6 +3,9 @@
 // Include the database connection file
 include 'database.php';
 
+// Initialize an array to store error messages
+$errors = array();
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Check if form data is present
     if (
@@ -19,42 +22,108 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $grade = mysqli_real_escape_string($conn, $_POST['grade']);
         $school_name = mysqli_real_escape_string($conn, $_POST['school_name']);
 
-        // Validate data 
+        // Validate data
         if (!is_numeric($ID)) {
-            echo "Error: ID must be a numeric value.";
-            exit();
+            $errors[] = "ID must be a numeric value.";
         }
-// Validate date format (assuming YYYY-MM-DD format)
-if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $birth_date)) {
-    echo "Error: Invalid date format. Please use YYYY-MM-DD.";
-    exit();
-}
-// Validate names contain only alphabetical characters
-    if (!ctype_alpha($first_name) || !ctype_alpha($last_name)) {
-        echo "Error: First and last names should only contain alphabetical characters.";
-        exit()
-    }
-    // Validate grade contains only numeric characters
-        if (!is_numeric($grade)) {
-            echo "Error: Grade must be a numeric value.";
-            exit();
-        }
-        // SQL query to insert data
-        $sql = "INSERT INTO registration (ID, firstname, lastname, gender, grade, birthdate, schoolname) 
-                VALUES ('$ID', '$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name')";
 
-        if ($conn->query($sql) === TRUE) {
-            echo "Registration successful!";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+        // Validate names contain only alphabetical characters
+        if (!ctype_alpha($first_name) || !ctype_alpha($last_name)) {
+            $errors[] = "First and last names should only contain alphabetical characters.";
         }
-     else {
-        echo "Form data is incomplete or invalid.";
+
+        // Validate grade contains only numeric characters
+        if (!is_numeric($grade)) {
+            $errors[] = "Grade must be a numeric value.";
+        }
+
+        // Validate date format (assuming YYYY-MM-DD format)
+        if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $birth_date)) {
+            $errors[] = "Invalid date format. Please use YYYY-MM-DD.";
+        }
+
+        // If there are no errors, proceed with database insertion
+        if (empty($errors)) {
+            // SQL query to insert data
+            $sql = "INSERT INTO registration (ID, firstname, lastname, gender, grade, birthdate, schoolname) 
+                    VALUES ('$ID', '$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name')";
+
+            if ($conn->query($sql) === TRUE) {
+                echo "Registration successful!";
+            } else {
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+        }
+    } else {
+        $errors[] = "Form data is incomplete or invalid.";
     }
- else {
-    echo "Invalid request.";
+} else {
+    $errors[] = "Invalid request.";
 }
 
 // Close the database connection
 $conn->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <!-- Other head elements -->
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <h2>Student Registration</h2>
+
+    <?php
+    // Display error messages
+    if (!empty($errors)) {
+        echo '<div class="error-container"><ul>';
+        foreach ($errors as $error) {
+            echo '<li>' . $error . '</li>';
+        }
+        echo '</ul></div>';
+    }
+    ?>
+
+    <form action="registration.php" method="post">
+        <label for="ID">ID:</label>
+        <input type="number" name="ID" required><br>
+
+        <label for="first_name">First Name:</label>
+        <input type="text" name="first_name" required><br>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" name="last_name" required><br>
+
+        <label for="gender">Gender:</label>
+        <select name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select><br>
+
+        <label for="birth_date">Date of Birth:</label>
+        <input type="date" name="birth_date" required><br>
+
+        <label for="grade">Grade:</label>
+        <input type="text" name="grade" required><br>
+
+        <label for="school_name">School Name:</label>
+        <select name="school_name" required>
+            <option value="Bole School">Bole School</option>
+            <option value="Lideta School">Lideta School</option>
+            <option value="Menilik School">Menilik School</option>
+            <option value="Akaki School">Akaki School</option>
+            <option value="Arada School">Arada School</option>
+        </select><br>
+
+        <input type="submit" value="Register">
+    </form>
+</body>
+
+</html>
