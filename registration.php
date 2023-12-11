@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Add more validation as needed...
 
         // SQL query to insert data
-        $sql = "INSERT INTO registration (ID, first_name_column_name, last_name_column_name, gender_column_name, grade_column_name, birth_date_column_name, school_name_column_name) 
+        $sql = "INSERT INTO registration (ID, firstname, lastname, gender, grade, birthdate, schoolname) 
                 VALUES ('$ID', '$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name')";
 
         if ($conn->query($sql) === TRUE) {
