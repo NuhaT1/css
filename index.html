@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>student registration</title>
-        <!-- Other head elements -->
-        <link rel="stylesheet" href="styles.css">
-    
+    <!-- Other head elements -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css.error">
 </head>
 <body>
     <h2>student registration</h2>
     <form action="registration.php" method="post">
 
         <label for="first_name">First Name:</label>
-        <input type="text" name="first_name" required><br>
+        <input type="text" name="firstname" required><br>
 
         <label for="last_name">Last Name:</label>
-        <input type="text" name="last_name" required><br>
-  
+        <input type="text" name="lastname" required><br>
+
         <h2>Select Gender</h2>
     <form action="registration.php" method="post">
         <label>
@@ -30,14 +30,14 @@
             Female
         </label>
 
-        <label for="birth_date">Date of Birth:</label>
+        <label for="birthdate">Date of Birth:</label>
         <input type="date" name="birth_date" required><br>
 
         <label for="grade">Grade:</label>
         <input type="text" name="grade" required><br>
 
-        <label for="school_name">School Name:</label>
-        <select name="school_name" required>
+        <label for="schoolName">School Name:</label>
+        <select name="schoolName" required>
             <option value="Bole School">Bole School</option>
             <option value="Lideta School">Lideta School</option>
             <option value="Menilik School">Menilik School</option>

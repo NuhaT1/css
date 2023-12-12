@@ -28,18 +28,18 @@
     }
 
     .error-container li {
-        margin-bottom: 5px;
+        margin-bottom: 4px;
     }
 
     label {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 4px;
     }
 
     input,
     select {
         width: 100%;
-        padding: 8px;
+        padding: 10px;
         margin-bottom: 10px;
         box-sizing: border-box;
     }

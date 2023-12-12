@@ -1,4 +1,4 @@
-Nuhamin Teferi, [12/11/2023 3:31 PM]
+
 <?php
 
 // Include the database connection file
@@ -9,21 +9,22 @@ $errors = array();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Check if form data is present
+
     if (
-        isset($_POST['first_name'], $_POST['last_name'], $_POST['birth_date'], $_POST['gender'], $_POST['grade'], $_POST['school_name'])
+        isset($_POST['first_name'], $_POST['last_name'], $_POST['birthdate'], $_POST['gender'], $_POST['grade'], $_POST['schoolname'])
         && !empty($_POST['first_name']) && !empty($_POST['last_name'])
-        && !empty($_POST['birth_date']) && !empty($_POST['gender']) && !empty($_POST['grade']) && !empty($_POST['school_name'])
+        && !empty($_POST['birthdate']) && !empty($_POST['gender']) && !empty($_POST['grade']) && !empty($_POST['schoolname'])
     ) {
         // Retrieve form data
-        $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
-        $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
-        $birth_date = mysqli_real_escape_string($conn, $_POST['birth_date']);
+        $firstname = mysqli_real_escape_string($conn, $_POST['first_name']);
+        $lastname = mysqli_real_escape_string($conn, $_POST['last_name']);
+        $birthdate = mysqli_real_escape_string($conn, $_POST['birthdate']);
         $gender = mysqli_real_escape_string($conn, $_POST['gender']);
         $grade = mysqli_real_escape_string($conn, $_POST['grade']);
-        $school_name = mysqli_real_escape_string($conn, $_POST['school_name']);
+        $schoolname = mysqli_real_escape_string($conn, $_POST['schoolname']);
 
         // Validate names contain only alphabetical characters
-        if (!ctype_alpha($first_name) || !ctype_alpha($last_name)) {
+        if (!ctype_alpha($firstname) || !ctype_alpha($lastname)) {
             $errors[] = "First and last names should only contain alphabetical characters.";
         }
 
@@ -33,15 +34,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         // Validate date format (assuming YYYY-MM-DD format)
-        if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $birth_date)) {
+        if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $birthdate)) {
             $errors[] = "Invalid date format. Please use YYYY-MM-DD.";
         }
 
         // If there are no errors, proceed with database insertion
         if (empty($errors)) {
             // SQL query to insert data
-            $sql = "INSERT INTO registration ( firstname, lastname, gender, grade, birthdate, schoolname) 
-                    VALUES ('$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name')";
+            $sql = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolname) 
+                    VALUES ('$firstname', '$lastname', '$gender', '$grade', '$birthdate', '$schoolname')";
 
             if ($conn->query($sql) === TRUE) {
                 echo "Registration successful!";
@@ -87,7 +88,7 @@ $conn->close();
     ?>
 
     <form action="registration.php" method="post">
-        
+
         <label for="first_name">First Name:</label>
         <input type="text" name="first_name" required><br>
 
@@ -106,14 +107,14 @@ $conn->close();
             Female
         </label>
 
-        <label for="birth_date">Date of Birth:</label>
-        <input type="date" name="birth_date" required><br>
+        <label for="birthdate">Date of Birth:</label>
+        <input type="date" name="birthdate" required><br>
 
         <label for="grade">Grade:</label>
         <input type="text" name="grade" required><br>
 
-<label for="school_name">School Name:</label>
-        <select name="school_name" required>
+        <label for="schoolName">School Name:</label>
+        <select name="schoolName" required>
             <option value="Bole School">Bole School</option>
             <option value="Lideta School">Lideta School</option>
             <option value="Menilik School">Menilik School</option>
