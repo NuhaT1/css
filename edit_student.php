@@ -1,7 +1,7 @@
 <!-- edit_student.php -->
 
 <?php
-include 'database.php';
+include 'database.php'; // Ensure you include the database connection file
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
     $student_id = $_GET["id"];

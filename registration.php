@@ -1,5 +1,4 @@
 <?php
-
 // Include the database connection file
 include 'database.php';
 
@@ -8,7 +7,6 @@ $errors = array();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Check if form data is present
-
     if (
         isset($_POST['first_name'], $_POST['last_name'], $_POST['birth_date'], $_POST['gender'], $_POST['grade'], $_POST['school_name'])
         && !empty($_POST['first_name']) && !empty($_POST['last_name'])
@@ -40,12 +38,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // If there are no errors, proceed with database insertion
         if (empty($errors)) {
             // SQL query to insert data
-            $sql = "INSERT INTO registration ( firstname, lastname, gender, grade, birthdate, schoolName) 
-                    VALUES ('$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_Name')";
+            $sql = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolName) 
+                    VALUES ('$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name')";
 
             if ($conn->query($sql) === TRUE) {
-                 // Redirect to the list page after successful registration
-                header("Location:student_list.php");
+                // Redirect to the list page after successful registration
+                header("Location: student_list.php");
                 exit();
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
@@ -70,7 +68,6 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Registration</title>
     <link rel="stylesheet" href="styles.css">
-
 </head>
 
 <body>
@@ -88,7 +85,6 @@ $conn->close();
     ?>
 
     <form action="registration.php" method="post">
-        
         <label for="first_name">First Name:</label>
         <input type="text" name="first_name" required><br>
 
@@ -96,7 +92,6 @@ $conn->close();
         <input type="text" name="last_name" required><br>
 
         <h2>Select Gender</h2>
-    <form action="registration.php" method="post">
         <label>
             <input type="radio" name="gender" value="male" required>
             Male
@@ -113,8 +108,8 @@ $conn->close();
         <label for="grade">Grade:</label>
         <input type="text" name="grade" required><br>
 
-<label for="school_Name">School Name:</label>
-        <select name="school_Name" required>
+        <label for="school_name">School Name:</label>
+        <select name="school_name" required>
             <option value="Bole School">Bole School</option>
             <option value="Lideta School">Lideta School</option>
             <option value="Menilik School">Menilik School</option>
@@ -124,7 +119,6 @@ $conn->close();
 
         <input type="submit" value="Register">
     </form>
-    
 
 </body>
 
