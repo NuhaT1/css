@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Student</title>
-    <!-- Include your CSS styles here -->
+    <link rel="stylesheet" href="list.css">
 </head>
 <body>
 
@@ -14,23 +14,33 @@
     $username = 'root';
     $password = '';
     $database = 'login_registrarion';
+    $port = 3306;
     // Create a connection
-    $conn = new mysqli($hostname, $username, $password, $database);
+    $conn = new mysqli($hostname, $username, $password, $database, $port);
 
     // Check the connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Fetch student data based on the provided ID
-    if (isset($_GET["id"])) {
-        $student_id = $_GET["id"];
-        $sql = "SELECT * FROM registration WHERE id = $student_id";
-        $result = $conn->query($sql);
+    // Fetch the ID of the last inserted student
+    $sql = "SELECT id FROM registration ORDER BY id DESC LIMIT 1";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $lastInsertedId = $row['id'];
+
+        // Use the retrieved ID to fetch student details
+        $sql = "SELECT * FROM registration WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $lastInsertedId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            // Display student data
             $row = $result->fetch_assoc();
+            // Display student data
             echo "<h2>Student Details</h2>";
             echo "<p>First Name: " . $row["firstname"] . "</p>";
             echo "<p>Last Name: " . $row["lastname"] . "</p>";
@@ -42,7 +52,7 @@
             echo "Student not found.";
         }
     } else {
-        echo "Invalid request.";
+        echo "No students found.";
     }
 
     // Close the database connection

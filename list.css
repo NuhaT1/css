@@ -1,0 +1,60 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+student-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px;
+}
+
+student-list li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+student-info {
+    flex: 2;
+}
+
+student-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+student-details {
+    color: #666;
+}
+
+actions {
+    flex: 1;
+    text-align: right;
+}
+
+actions a {
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+actions a:hover {
+    background-color: #0056b3;
+}

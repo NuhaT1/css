@@ -1,4 +1,4 @@
-<style>
+
     body {
         font-family: Arial, sans-serif;
     }
@@ -12,7 +12,7 @@
         margin: 0 auto;
     }
 
-    .error-container {
+    error-container {
         background-color: #ffdddd;
         color: #990000;
         padding: 10px;
@@ -21,13 +21,13 @@
         border-radius: 5px;
     }
 
-    .error-container ul {
+    error-container ul {
         list-style-type: none;
         margin: 0;
         padding: 0;
     }
 
-    .error-container li {
+    error-container li {
         margin-bottom: 4px;
     }
 
@@ -53,4 +53,4 @@
     input[type="submit"]:hover {
         background-color: #45a049;
     }
-</style>
+
