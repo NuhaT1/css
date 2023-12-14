@@ -55,7 +55,12 @@ if (!$result) {
                     <td>' . $row['birthdate'] . '</td>
                     <td>' . $row['grade'] . '</td>
                     <td>' . $row['schoolName'] . '</td>
-                        </tr>';
+                    <td>
+                            <a href="view_student.php?id=' . $row['ID'] . '">View</a>
+                            <a href="edit_student.php?id=' . $row['ID'] . '">Edit</a>
+                            <a href="delete_student.php?id=' . $row['ID'] . '" onclick="return confirm(\'Are you sure you want to delete this student?\')">Delete</a>
+                        </td>   
+                    </tr>';
         }
     } else {
         echo "No records found.";
