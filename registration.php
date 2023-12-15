@@ -38,18 +38,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errors[] = "Invalid";
         }
 
-        
         }
 
         // If there are no errors, proceed with database insertion
         if (empty($errors)) {
-            // SQL query to insert data
-            $sql = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolName) 
-                    VALUES ('$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name')";
+            // Get the current timestamp
+        $currentTimestamp = date("Y-m-d H:i:s");
 
+            // SQL query to insert data
+            $sql = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolName, registrationTimestamp) 
+                    VALUES ('$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name','$currentTimestamp')";
+             // Set deleteTimestamp to NULL
+             $deleteTimestamp = NULL;
+             // SQL query to update data, including the delete timestamp
+             $sql = "UPDATE registration 
+             SET deleteTimestamp='NULL' 
+             WHERE id=$ID";
+            
+            if ($conn->query($sql) === TRUE) {
+                // Redirect to the list page after successful deletion
+                header("Location: student_list.php");
+                echo "Record updated successfully";
+                exit();
+            } else {
+                echo "Error deleting record: " . $conn->error;
+            }
+            $UPDATETimestamp = NULL;
+            $sql = "UPDATE registration 
+            SET updateTimestamp=NULL
+            WHERE id=$ID";
+
+           if ($conn->query($sql) === TRUE) {
+         // Redirect to the list page after successful update
+           header("Location: student_list.php");
+           exit();
+           } else {
+              echo "Error updating record: " . $conn->error;
+             } 
+        
             if ($conn->query($sql) === TRUE) {
                 // Redirect to the list page after successful registration
                 header("Location: student_list.php");
+                echo "Record updated successfully";
                 exit();
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
@@ -71,6 +101,7 @@ $conn->close();
     <title>Student Registration</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="styles4.css">
+    <link rel="stylesheet" href="list.css">
 </head>
 
 <body>
