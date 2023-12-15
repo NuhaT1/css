@@ -41,52 +41,56 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         // If there are no errors, proceed with database insertion
-        if (empty($errors)) {
-            // Get the current timestamp
+    if (empty($errors)) {
+        // Get the current timestamp
         $currentTimestamp = date("Y-m-d H:i:s");
 
-            // SQL query to insert data
-            $sql = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolName, registrationTimestamp) 
-                    VALUES ('$first_name', '$last_name', '$gender', '$grade', '$birth_date', '$school_name','$currentTimestamp')";
-             // Set deleteTimestamp to NULL
-             $deleteTimestamp = NULL;
-             // SQL query to update data, including the delete timestamp
-             $sql = "UPDATE registration 
-             SET deleteTimestamp='NULL' 
-             WHERE id=$ID";
-            
-            if ($conn->query($sql) === TRUE) {
-                // Redirect to the list page after successful deletion
-                header("Location: student_list.php");
-                echo "Record updated successfully";
-                exit();
-            } else {
-                echo "Error deleting record: " . $conn->error;
-            }
-            $UPDATETimestamp = NULL;
-            $sql = "UPDATE registration 
-            SET updateTimestamp=NULL
-            WHERE id=$ID";
+        // SQL query to insert data using prepared statement
+        $sqlInsert = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolName, registrationTimestamp) 
+                      VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-           if ($conn->query($sql) === TRUE) {
-         // Redirect to the list page after successful update
-           header("Location: student_list.php");
-           exit();
-           } else {
-              echo "Error updating record: " . $conn->error;
-             } 
-        
-            if ($conn->query($sql) === TRUE) {
-                // Redirect to the list page after successful registration
+        // Prepare the statement
+        $stmt = $conn->prepare($sqlInsert);
+
+        // Bind parameters
+        $stmt->bind_param("sssssss", $first_name, $last_name, $gender, $grade, $birth_date, $school_name, $currentTimestamp);
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            // Get the ID of the inserted record
+            $lastInsertedId = $stmt->insert_id;
+
+            // Set deleteTimestamp to NULL
+            $deleteTimestamp = NULL;
+
+            // SQL query to update data, including the delete timestamp
+            $sqlUpdate = "UPDATE registration 
+                          SET deleteTimestamp=NULL 
+                          WHERE id=?";
+
+            // Prepare the update statement
+            $stmtUpdate = $conn->prepare($sqlUpdate);
+
+            // Bind parameter
+            $stmtUpdate->bind_param("i", $lastInsertedId);
+
+            // Execute the update statement
+            if ($stmtUpdate->execute()) {
+                // Redirect to the list page after successful update
                 header("Location: student_list.php");
-                echo "Record updated successfully";
                 exit();
             } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                echo "Error updating record: " . $stmtUpdate->error;
             }
+        } else {
+            echo "Error inserting record: " . $stmt->error;
         }
-    } 
- 
+
+        // Close the statement
+        $stmt->close();
+        $stmtUpdate->close();
+    }
+}
 
 // Close the database connection
 $conn->close();
