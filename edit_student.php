@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
             <h2>Edit Student</h2>
 
             <form action="update_student.php" method="post">
-                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                <input type="hidden" name="ID" value="<?php echo $row['ID']; ?>">
 
                 <label for="first_name">First Name:</label>
                 <input type="text" name="first_name" value="<?php echo $row['firstname']; ?>" required><br>
@@ -43,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
                 <input type="submit" value="Update">
             </form>
         </body>
-
         </html>
 <?php
     } else {

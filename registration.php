@@ -29,10 +29,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!is_numeric($grade)) {
             $errors[] = "Grade must be a numeric value.";
         }
+          $currentDate = new DateTime();
+          $registrationDate = new DateTime($birth_date);
+          $interval = $currentDate->diff($registrationDate);
+          $yearsDifference = $interval->y;
 
-        // Validate date format (assuming YYYY-MM-DD format)
-        if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $birth_date)) {
-            $errors[] = "Invalid date format. Please use YYYY-MM-DD.";
+          if ($yearsDifference > 4) {
+          $errors[] = "invalid";
+        }
+
+        
         }
 
         // If there are no errors, proceed with database insertion
@@ -49,12 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
         }
-    } else {
-        $errors[] = "Form data is incomplete or invalid.";
-    }
-} else {
-    $errors[] = "Invalid request.";
-}
+    } 
+ 
 
 // Close the database connection
 $conn->close();
@@ -68,6 +70,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Registration</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles4.css">
 </head>
 
 <body>
@@ -93,12 +96,12 @@ $conn->close();
 
         <h2>Select Gender</h2>
         <label>
-            <input type="radio" name="gender" value="male" required>
+            <input type="radio" name="gender" value="M" required>
             Male
         </label>
 
         <label>
-            <input type="radio" name="gender" value="female" required>
+            <input type="radio" name="gender" value="F" required>
             Female
         </label>
 
