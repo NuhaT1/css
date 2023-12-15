@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Student</title>
-    <link rel="stylesheet" href="list.css">
+    <link rel="stylesheet" href="view.css">
+
 </head>
 <body>
-
+      <div class="container">
     <?php
     // Retrieve student data from the database (replace these credentials with your own)
     $hostname = 'localhost';
@@ -58,6 +59,6 @@
     // Close the database connection
     $conn->close();
     ?>
-
+        </div>  
 </body>
 </html>

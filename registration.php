@@ -24,18 +24,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!ctype_alpha($first_name) || !ctype_alpha($last_name)) {
             $errors[] = "First and last names should only contain alphabetical characters.";
         }
+     // Validate grade contains only numeric characters and is in the range of 0 to 13
+      if (!is_numeric($grade) || $grade < 0 || $grade > 13) {
+        $errors[] = "Grade must be a numeric value between 0 and 13.";
 
-        // Validate grade contains only numeric characters
-        if (!is_numeric($grade)) {
-            $errors[] = "Grade must be a numeric value.";
+
         }
-          $currentDate = new DateTime();
-          $registrationDate = new DateTime($birth_date);
-          $interval = $currentDate->diff($registrationDate);
-          $yearsDifference = $interval->y;
-
-          if ($yearsDifference > 4) {
-          $errors[] = "invalid";
+        $currentDate = new DateTime();
+        $registrationDate = new DateTime($birth_date);
+        $yearsDifference = $currentDate->diff($registrationDate)->y;
+        
+        if ($yearsDifference > 4) {
+            $errors[] = "Invalid";
         }
 
         
