@@ -19,18 +19,22 @@ $database = 'login_registrarion';
 $port = 3306;
 $conn = new mysqli($hostname, $username, $password, $database, $port);
 
+// SQL query to retrieve non-deleted records
+$sqlSelect = "SELECT * FROM registration WHERE is_deleted = 0";
+$result = $conn->query($sqlSelect);
+// ...
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
 // Query to retrieve student information
-$query = "SELECT * FROM registration ";
-$result = $conn->query($query);
 
 if (!$result) {
     die("Query failed: " . $conn->error);
 }
 ?>
+  
 
 <table>
     <tr>

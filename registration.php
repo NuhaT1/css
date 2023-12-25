@@ -24,77 +24,56 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!ctype_alpha($first_name) || !ctype_alpha($last_name)) {
             $errors[] = "First and last names should only contain alphabetical characters.";
         }
-     // Validate grade contains only numeric characters and is in the range of 0 to 13
-      if (!is_numeric($grade) || $grade < 0 || $grade > 13) {
-        $errors[] = "Grade must be a numeric value between 0 and 13.";
-
-
+        // Validate grade contains only numeric characters and is in the range of 0 to 13
+        if (!is_numeric($grade) || $grade < 0 || $grade > 13) {
+            $errors[] = "Grade must be a numeric value between 0 and 13.";
         }
+
         $currentDate = new DateTime();
         $registrationDate = new DateTime($birth_date);
         $yearsDifference = $currentDate->diff($registrationDate)->y;
-        
+
         if ($yearsDifference > 4) {
             $errors[] = "Invalid";
         }
 
-        }
-
         // If there are no errors, proceed with database insertion
-    if (empty($errors)) {
-        // Get the current timestamp
-        $currentTimestamp = date("Y-m-d H:i:s");
+        if (empty($errors)) {
+            // Get the current timestamp
+            $currentTimestamp = date("Y-m-d H:i:s");
 
-        // SQL query to insert data using prepared statement
-        $sqlInsert = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolName, registrationTimestamp) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?)";
+            // SQL query to insert data using prepared statement
+            $sqlInsert = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolName, registrationTimestamp) 
+                          VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        // Prepare the statement
-        $stmt = $conn->prepare($sqlInsert);
+            // Prepare the statement
+            $stmt = $conn->prepare($sqlInsert);
 
-        // Bind parameters
-        $stmt->bind_param("sssssss", $first_name, $last_name, $gender, $grade, $birth_date, $school_name, $currentTimestamp);
+            // Bind parameters
+            $stmt->bind_param("sssssss", $first_name, $last_name, $gender, $grade, $birth_date, $school_name, $currentTimestamp);
 
-        // Execute the statement
-        if ($stmt->execute()) {
-            // Get the ID of the inserted record
-            $lastInsertedId = $stmt->insert_id;
-
-            // Set deleteTimestamp to NULL
-            $deleteTimestamp = NULL;
-
-            // SQL query to update data, including the delete timestamp
-            $sqlUpdate = "UPDATE registration 
-                          SET deleteTimestamp=NULL 
-                          WHERE id=?";
-
-            // Prepare the update statement
-            $stmtUpdate = $conn->prepare($sqlUpdate);
-
-            // Bind parameter
-            $stmtUpdate->bind_param("i", $lastInsertedId);
-
-            // Execute the update statement
-            if ($stmtUpdate->execute()) {
-                // Redirect to the list page after successful update
+            // Execute the statement
+            if ($stmt->execute()) {
+                // Redirect to the list page after successful insertion
                 header("Location: student_list.php");
                 exit();
             } else {
-                echo "Error updating record: " . $stmtUpdate->error;
+                echo "Error inserting record: " . $stmt->error;
             }
-        } else {
-            echo "Error inserting record: " . $stmt->error;
-        }
 
-        // Close the statement
-        $stmt->close();
-        $stmtUpdate->close();
+            // Close the statement
+            $stmt->close();
+        }
+    } else {
+        // Handle the case when form data is not present
+        echo "Form data is not valid or incomplete.";
     }
 }
 
 // Close the database connection
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

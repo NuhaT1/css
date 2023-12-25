@@ -38,6 +38,34 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
                 <label for="last_name">Last Name:</label>
                 <input type="text" name="last_name" value="<?php echo $row['lastname']; ?>" required><br>
 
+                
+        <h2>Select Gender</h2>
+    
+    <label>
+        <input type="radio" name="gender" value="M"<?php echo $row['gender']; ?>" required>
+        Male
+    </label>
+
+    <label>
+        <input type="radio" name="gender" value="F" <?php echo $row['gender']; ?>" required>
+        Female
+    </label>
+
+    <label for="birth_date">Date of Birth:</label>
+    <input type="date" name="birth_date" <?php echo $row['birthdate']; ?>" required><br>
+
+    <label for="grade">Grade:</label>
+    <input type="text" name="grade" <?php echo $row['grade']; ?>" required><br>
+
+    <label for="school_name">School Name:</label>
+    <select name="schoolName" required>
+        <option value="Bole School" <?php if ($row['schoolName'] == 'Bole School') echo 'selected'; ?>>Bole School</option>
+        <option value="Lideta School" <?php if ($row['schoolName'] == 'Lideta School') echo 'selected'; ?>>Lideta School</option>
+        <option value="Menilik School" <?php if ($row['schoolName'] == 'Menilik School') echo 'selected'; ?>>Menilik School</option>
+        <option value="Akaki School" <?php if ($row['schoolName'] == 'Akaki School') echo 'selected'; ?>>Akaki School</option>
+        <option value="Arada School" <?php if ($row['schoolName'] == 'Arada School') echo 'selected'; ?>>Arada School</option>
+    </select><br>
+
                 <!-- Similar input fields for other details -->
 
                 <input type="submit" value="Update">
