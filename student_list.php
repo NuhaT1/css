@@ -28,6 +28,22 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+    // Number of records per page
+    $recordsPerPage = 3;
+
+    // Get the current page number
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    // Calculate the starting record for the current page
+    $startFrom = ($page - 1) * $recordsPerPage;
+
+    // SQL query to retrieve non-deleted records with pagination
+    $sqlSelect = "SELECT * FROM registration WHERE is_deleted = 0 LIMIT ?, ?";
+    $stmt = $conn->prepare($sqlSelect);
+    $stmt->bind_param("ii", $startFrom, $recordsPerPage);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
 // Query to retrieve student information
 
 if (!$result) {
@@ -69,12 +85,29 @@ if (!$result) {
     } else {
         echo "No records found.";
     }
+    ?>
+     </table>
 
-    $conn->close();
+    <!-- Pagination links -->
+    <?php
+    $sqlCount = "SELECT COUNT(ID) AS total FROM registration WHERE is_deleted = 0";
+    $resultCount = $conn->query($sqlCount);
+    $rowCount = $resultCount->fetch_assoc();
+    $totalPages = ceil($rowCount['total'] / $recordsPerPage);
     ?>
 
-</table>
+    <div class='pagination'>
+        <?php
+        for ($i = 1; $i <= $totalPages; $i++) {
+            echo "<a href='student_list.php?page=$i'>$i</a> ";
+        }
+        ?>
+    </div>
 
+    <?php
+    // Close the database connection
 
+      $conn->close();
+        ?>
 </body>
 </html>
