@@ -20,6 +20,13 @@
         <input type="submit" value="Search">
     </form>
 
+    <!-- Add a filter form for school name -->
+    <form method="GET" action="student_list.php">
+        <label for="schoolFilter">Filter by School Name:</label>
+        <input type="text" id="schoolFilter" name="schoolFilter">
+        <input type="submit" value="Filter">
+    </form>
+
     <?php
     $hostname = 'localhost';
     $username = 'root';
@@ -40,11 +47,20 @@
     // Get the search query if submitted
     $search = isset($_GET['search']) ? $_GET['search'] : '';
 
+    // Get the school filter if submitted
+    $schoolFilter = isset($_GET['schoolFilter']) ? $_GET['schoolFilter'] : '';
+
     // Append the search condition to the SQL query if a search is performed
     $sqlSelect = "SELECT * FROM registration WHERE is_deleted = 0";
     if (!empty($search)) {
         $sqlSelect .= " AND (firstname LIKE '%$search%' OR lastname LIKE '%$search%' OR ID = '$search')";
     }
+
+    // Append the school filter condition to the SQL query if a filter is applied
+    if (!empty($schoolFilter)) {
+        $sqlSelect .= " AND schoolName LIKE '%$schoolFilter%'";
+    }
+
     $sqlSelect .= " LIMIT ?, ?";
     $stmt = $conn->prepare($sqlSelect);
     $stmt->bind_param("ii", $startFrom, $recordsPerPage);
@@ -105,7 +121,7 @@
     <div class='pagination'>
         <?php
         for ($i = 1; $i <= $totalPages; $i++) {
-            echo "<a href='student_list.php?page=$i&search=$search'>$i</a> ";
+            echo "<a href='student_list.php?page=$i&search=$search&schoolFilter=$schoolFilter'>$i</a> ";
         }
         ?>
     </div>
