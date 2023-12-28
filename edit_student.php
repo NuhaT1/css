@@ -42,20 +42,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
         <h2>Select Gender</h2>
     
     <label>
-        <input type="radio" name="gender" value="M"<?php echo $row['gender']; ?>" required>
+    <input type="radio" name="gender" value="M" <?php echo ($row['gender'] == 'M') ? 'checked' : ''; ?> required>
         Male
     </label>
 
     <label>
-        <input type="radio" name="gender" value="F" <?php echo $row['gender']; ?>" required>
+    <input type="radio" name="gender" value="F" <?php echo ($row['gender'] == 'F') ? 'checked' : ''; ?> required>
         Female
     </label>
 
     <label for="birth_date">Date of Birth:</label>
-    <input type="date" name="birth_date" <?php echo $row['birthdate']; ?>" required><br>
+    <input type="date" name="birth_date" value="<?php echo $row['birthdate']; ?>" required><br>
+
 
     <label for="grade">Grade:</label>
-    <input type="text" name="grade" <?php echo $row['grade']; ?>" required><br>
+    <input type="text" name="grade" value="<?php echo $row['grade']; ?>" required><br>
+
 
     <label for="school_name">School Name:</label>
     <select name="schoolName" required>
