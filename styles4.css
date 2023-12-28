@@ -8,7 +8,7 @@
     }
 
     form {
-        max-width: 400px;
+        max-width: 300px;
         margin: 0 auto;
     }
 
@@ -17,8 +17,8 @@
         color: #990000;
         padding: 10px;
         border: 1px solid #990000;
-        margin-bottom: 10px;
-        border-radius: 5px;
+        margin-bottom: 8px;
+        border-radius: 4px;
     }
 
     error-container ul {
@@ -28,7 +28,7 @@
     }
 
     error-container li {
-        margin-bottom: 4px;
+        margin-bottom: 3px;
     }
 
     label {
@@ -38,15 +38,15 @@
 
     input,
     select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
+        width: 90%;
+        padding: 9px;
+        margin-bottom: 9px;
         box-sizing: border-box;
     }
 
     input[type="submit"] {
         background-color: #4caf50;
-        color: white;
+        color: rgb(92, 131, 213);
         cursor: pointer;
     }
 

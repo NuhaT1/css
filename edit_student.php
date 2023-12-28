@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
 
 
     <label for="grade">Grade:</label>
-    <input type="text" name="grade" value="<?php echo $row['grade']; ?>" required><br>
+    <input type="number" name="grade" value="<?php echo $row['grade']; ?>" required><br>
 
 
     <label for="school_name">School Name:</label>
