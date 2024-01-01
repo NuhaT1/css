@@ -88,12 +88,15 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Include your head content here -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h2>Student Registration</h2>
     <form action="registration.php" method="post">
-    <link rel="stylesheet" href="styles.css">
+    
         <label for="first_name">First Name:</label>
         <input type="text" name="first_name" value="<?php echo isset($form_data['first_name']) ? $form_data['first_name'] : ''; ?>" required>
         <?php

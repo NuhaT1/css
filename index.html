@@ -3,46 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>student registration</title>
-        <link rel="stylesheet" href="styles.css">
-        
+    <title>Student Registration</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>student registration</h2>
+    <h2>Student Registration</h2>
     <form action="registration.php" method="post">
 
         <label for="first_name">First Name:</label>
-        <input type="text" name="first_name" required><br>
+        <input type="text" name="first_name" value="<?php echo isset($form_data['first_name']) ? $form_data['first_name'] : ''; ?>" required>
+        <?php
+            if (isset($errors['first_name'])) {
+                echo '<span class="error">' . $errors['first_name'] . '</span>';
+            }
+        ?><br>
 
         <label for="last_name">Last Name:</label>
-        <input type="text" name="last_name" required><br>
-  
+        <input type="text" name="last_name" value="<?php echo isset($form_data['last_name']) ? $form_data['last_name'] : ''; ?>" required>
+        <?php
+            if (isset($errors['last_name'])) {
+                echo '<span class="error">' . $errors['last_name'] . '</span>';
+            }
+        ?><br>
+
         <h2>Select Gender</h2>
-    
+
         <label>
-            <input type="radio" name="gender" value="M" required>
+            <input type="radio" name="gender" value="M" <?php echo (isset($form_data['gender']) && $form_data['gender'] === 'M') ? 'checked' : ''; ?> required>
             Male
         </label>
-
         <label>
-            <input type="radio" name="gender" value="F" required>
+            <input type="radio" name="gender" value="F" <?php echo (isset($form_data['gender']) && $form_data['gender'] === 'F') ? 'checked' : ''; ?> required>
             Female
         </label>
+        <?php
+            if (isset($errors['gender'])) {
+                echo '<span class="error">' . $errors['gender'] . '</span>';
+            }
+        ?><br>
 
         <label for="birth_date">Date of Birth:</label>
-        <input type="date" name="birth_date" required><br>
+        <input type="date" name="birth_date" value="<?php echo isset($form_data['birth_date']) ? $form_data['birth_date'] : ''; ?>" required>
+        <?php
+            if (isset($errors['birth_date'])) {
+                echo '<span class="error">' . $errors['birth_date'] . '</span>';
+            }
+        ?><br>
 
         <label for="grade">Grade:</label>
-        <input type="number" name="grade" required><br>
 
-        <label for="school_name">School Name:</label>
+        <input type="number" name="grade" value="<?php echo isset($form_data['grade']) ? $form_data['grade'] : ''; ?>" required>
+        <?php
+            if (isset($errors['grade'])) {
+                echo '<span class="error">' . $errors['grade'] . '</span>';
+            }
+        ?><br>
+
+        <label for="schoolName">School Name:</label>
         <select name="schoolName" required>
-            <option value="Bole School">Bole School</option>
-            <option value="Lideta School">Lideta School</option>
-            <option value="Menilik School">Menilik School</option>
-            <option value="Akaki School">Akaki School</option>
-            <option value="Arada School">Arada School</option>
-        </select><br>
+            <option value="Bole School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Bole School') ? 'selected' : ''; ?>>Bole School</option>
+            <option value="Lideta School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Lideta School')
+
+? 'selected' : ''; ?>>Lideta School</option>
+            <option value="Menilik School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Menilik School') ? 'selected' : ''; ?>>Menilik School</option>
+            <option value="Akaki School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Akaki School') ? 'selected' : ''; ?>>Akaki School</option>
+            <option value="Arada School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Arada School') ? 'selected' : ''; ?>>Arada School</option>
+        </select>
+        <?php
+            if (isset($errors['school_name'])) {
+                echo '<span class="error">' . $errors['school_name'] . '</span>';
+            }
+        ?><br>
 
         <input type="submit" value="Register">
     </form>

@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Information List</title>
     <link rel="stylesheet" href="list.css">
-    
 </head>
 <body>
 
@@ -38,12 +37,6 @@
     // Number of records per page
     $recordsPerPage = 3;
 
-    // Get the current page number
-    $page = isset($_GET['page']) ? $_GET['page'] : 1;
-
-    // Calculate the starting record for the current page
-    $startFrom = ($page - 1) * $recordsPerPage;
-
     // Get the search query if submitted
     $search = isset($_GET['search']) ? $_GET['search'] : '';
 
@@ -60,6 +53,17 @@
     if (!empty($schoolFilter)) {
         $sqlSelect .= " AND schoolName LIKE '%$schoolFilter%'";
     }
+
+    $sqlCount = "SELECT COUNT(ID) AS total FROM registration WHERE is_deleted = 0";
+    $resultCount = $conn->query($sqlCount);
+    $rowCount = $resultCount->fetch_assoc();
+    $totalPages = ceil($rowCount['total'] / $recordsPerPage);
+
+    // Get the current page number
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+    // Calculate the starting record for the current page
+    $startFrom = ($page - 1) * $recordsPerPage;
 
     $sqlSelect .= " LIMIT ?, ?";
     $stmt = $conn->prepare($sqlSelect);
@@ -109,19 +113,23 @@
         ?>
     </table>
 
-    <!-- Calculate $totalPages after fetching the data -->
-    <?php
-    $sqlCount = "SELECT COUNT(ID) AS total FROM registration WHERE is_deleted = 0";
-    $resultCount = $conn->query($sqlCount);
-    $rowCount = $resultCount->fetch_assoc();
-    $totalPages = ceil($rowCount['total'] / $recordsPerPage);
-    ?>
-
     <!-- Pagination links -->
     <div class='pagination'>
         <?php
-        for ($i = 1; $i <= $totalPages; $i++) {
-            echo "<a href='student_list.php?page=$i&search=$search&schoolFilter=$schoolFilter'>$i</a> ";
+        
+        // Next link for pages beyond 1
+        if ($page > 1) {
+            $prevPage = $page - 1;
+            echo "<a href='student_list.php?page=$prevPage&search=$search&schoolFilter=$schoolFilter'>Previous</a> ";
+        }
+
+            // Display the current page number
+            echo "Page $page ";
+
+
+        if ($page < $totalPages) {
+            $nextPage = $page + 1;
+            echo "<a href='student_list.php?page=$nextPage&search=$search&schoolFilter=$schoolFilter'>Next</a>";
         }
         ?>
     </div>

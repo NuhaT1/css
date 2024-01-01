@@ -10,8 +10,8 @@ form {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-width: 200px;
-  padding: 12px;
+  max-width: 300px;
+  padding: 20px;
   border-radius: 10px;
   position: relative;
   background-color: #36a5e5;
@@ -21,14 +21,15 @@ form {
 }
 
 h2 {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 600;
   letter-spacing: -1px;
   position: relative;
   display: flex;
   align-items: center;
   padding-left: 15px;
   color: #00bfff;
+  text-align: center;
 }
 
 h2::before,
