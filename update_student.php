@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["ID"])) {
 
     // Display errors and maintain user input
     if (!empty($errors)) {
+        // Display errors on the edit_student.php page
         echo '<div class="error-container"><ul>';
         foreach ($errors as $error) {
             echo '<li>' . $error . '</li>';
@@ -54,11 +55,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["ID"])) {
         $stmt->bind_param("ssssssi", $first_name, $last_name, $gender, $birth_date, $grade, $school_Name, $ID);
         $stmt->execute();
 
+        // Redirect only when there are no errors
         header("Location: student_list.php");
         exit();
     }
 } else {
     $errors[] = "Form data is not valid or incomplete.";
+}
+
+// Retrieve the student data for pre-filling the form
+if (isset($_GET['id'])) {
+    $studentID = mysqli_real_escape_string($conn, $_GET['id']);
+
+    $sql = "SELECT * FROM registration WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $studentID);
+    $stmt->execute();
+    $result = $stmt->get_result(); // Add the missing semicolon here
+
+    // Fetch the data
+    if ($row = $result->fetch_assoc()) {
+        // Populate the form with the retrieved data
+        $first_name = $row['firstname'];
+        $last_name = $row['lastname'];
+        $gender = $row['gender'];
+        $birth_date = $row['birthdate'];
+        $grade = $row['grade'];
+        $school_Name = $row['schoolName'];
+    } else {
+        // Handle the case when no data is found for the given ID
+        echo "No student found with the provided ID.";
+    }
 }
 
 $conn->close();

@@ -8,7 +8,7 @@
     }
 
     form {
-        max-width: 300px;
+        max-width: 400px;
         margin: 0 auto;
     }
 
@@ -41,16 +41,31 @@
         width: 90%;
         padding: 9px;
         margin-bottom: 9px;
-        box-sizing: border-box;
+        box-sizing: content-box;
     }
 
     input[type="submit"] {
-        background-color: #4caf50;
-        color: rgb(92, 131, 213);
+        background-color: #3dc334;
+        color: rgb(207, 103, 47);
         cursor: pointer;
     }
 
     input[type="submit"]:hover {
-        background-color: #45a049;
+        background-color: #49f376;
     }
+    select {
+        margin-top: 5px; 
+    }
+    select option:checked {
+        background-color: #ccc; 
+    }
+    
+    /* Adjusted styling for radio buttons */
+    form label {
+      display: block;
+      margin-bottom: 6px;
+   }
 
+    form label input[type="radio"] {
+    margin-right: 5px;
+   }
