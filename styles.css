@@ -4,8 +4,13 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
+  background-color: #fff;
 }
-
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 form {
   display: flex;
   flex-direction: column;
@@ -14,10 +19,11 @@ form {
   padding: 20px;
   border-radius: 10px;
   position: relative;
-  background-color: #36a5e5;
+  background-color: #fff;
   color: #b96565;
   border: 1px solid #1f5ba5;
   margin: 0 auto; /* Center the form */
+  text-align: center;
 }
 
 h2 {
@@ -28,8 +34,9 @@ h2 {
   display: flex;
   align-items: center;
   padding-left: 15px;
-  color: #00bfff;
+  color: #53a5c0;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 h2::before,
@@ -40,7 +47,7 @@ h2::after {
   width: 10px;
   border-radius: 40%;
   left: 0px;
-  background-color: #00bfff;
+  background-color: #fff;
 }
 
 h2::before {
@@ -65,7 +72,7 @@ h2::after {
 }
 
 .signin a:hover {
-  text-decoration: underline royalblue;
+  text-decoration: underline rgb(207, 143, 47);
 }
 
 .signin a {
@@ -109,7 +116,7 @@ form label .input:placeholder-shown + span {
 
 form label .input:focus + span,
 form label .input:valid + span {
-  color: #00bfff;
+  color: #9cd5e9;
   top: 0px;
   font-size: 0.7em;
   font-weight: 300;
@@ -127,7 +134,7 @@ input {
   color: #369ddd;
   font-size: 16px;
   transform: .3s ease;
-  background-color: #00bfff;
+  background-color: #35be2e;
 }
 
 .submit:hover {

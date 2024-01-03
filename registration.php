@@ -1,4 +1,3 @@
-
 <?php
 // Include the database connection file
 include 'database.php';
@@ -41,48 +40,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errors['grade'] = "Grade must be a numeric value between 1 and 12.";
         }
     }
-
-    // Calculate age
-    $currentDate = new DateTime();
-    $registrationDate = new DateTime($form_data['birth_date']);
-    $yearsDifference = $currentDate->diff($registrationDate)->y;
-
-    if ($yearsDifference > 4) {
-        $errors['birth_date'] = "Invalid age. Students must be 4 years or younger.";
-    }
-
-    // Check if form data is complete
-    if (empty($errors)) {
-        // If there are no errors, proceed with database insertion
-        // Get the current timestamp
-        $currentTimestamp = date("Y-m-d H:i:s");
-
-        // SQL query to insert data using prepared statement
-        $sqlInsert = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolName, registrationTimestamp) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        // Prepare the statement
-        $stmt = $conn->prepare($sqlInsert);
-
-        // Bind parameters
-        $stmt->bind_param("sssssss", $form_data['first_name'], $form_data['last_name'], $form_data['gender'], $form_data['grade'], $form_data['birth_date'], $form_data['school_name'], $currentTimestamp);
-
-        // Execute the statement
-        if ($stmt->execute()) {
-            // Redirect to the list page after successful insertion
-            header("Location: student_list.php");
-            exit();
-        } else {
-            echo "Error inserting record: " . $stmt->error;
-        }
-
-        // Close the statement
-        $stmt->close();
-    }
 }
+ // Check if form data is complete
+ if (empty($errors)) {
+    // If there are no errors, proceed with database insertion
+    // Get the current timestamp
+    $currentTimestamp = date("Y-m-d H:i:s");
 
-// Close the database connection
-$conn->close();
+    // SQL query to insert data using prepared statement
+    $sqlInsert = "INSERT INTO registration (firstname, lastname, gender, grade, birthdate, schoolName, registrationTimestamp) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    // Prepare the statement
+    $stmt = $conn->prepare($sqlInsert);
+
+    // Bind parameters
+    $stmt->bind_param("sssssss", $form_data['first_name'], $form_data['last_name'], $form_data['gender'], $form_data['grade'], $form_data['birth_date'], $form_data['school_name'], $currentTimestamp);
+
+    // Execute the statement
+    if ($stmt->execute()) {
+        // Redirect to the list page after successful insertion
+        header("Location: student_list.php");
+        exit();
+    } 
+
+    // Close the statement
+    $stmt->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -92,12 +76,13 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Registration</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="validateDate.js"></script>
 </head>
 <body>
 
 <div class="container">
     <h2>Student Registration</h2>
-    <form action="registration.php" method="post">
+    <form action="registration.php" method="post" onsubmit="return validateDate();">
     
         <label for="first_name">First Name:</label>
         <input type="text" name="first_name" value="<?php echo isset($form_data['first_name']) ? $form_data['first_name'] : ''; ?>" required>
@@ -132,7 +117,7 @@ $conn->close();
         ?><br>
 
         <label for="birth_date">Date of Birth:</label>
-        <input type="date" name="birth_date" value="<?php echo isset($form_data['birth_date']) ? $form_data['birth_date'] : ''; ?>" required>
+        <input type="date" name="birth_date" id="birth_date" value="<?php echo isset($form_data['birth_date']) ? $form_data['birth_date'] : ''; ?>" required>
         <?php
             if (isset($errors['birth_date'])) {
                 echo '<span class="error">' . $errors['birth_date'] . '</span>';
@@ -158,7 +143,9 @@ $conn->close();
         </select>
         <?php
             if (isset($errors['school_name'])) {
-                echo '<span class="error">' . $errors['school_name'] . '</span>';
+                echo '<span class="
+
+                error">' . $errors['school_name'] . '</span>';
             }
         ?><br>
 
