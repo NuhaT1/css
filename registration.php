@@ -94,6 +94,8 @@ $conn->close();
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<div class="container">
     <h2>Student Registration</h2>
     <form action="registration.php" method="post">
     
@@ -149,9 +151,7 @@ $conn->close();
         <label for="schoolName">School Name:</label>
         <select name="schoolName" required>
             <option value="Bole School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Bole School') ? 'selected' : ''; ?>>Bole School</option>
-            <option value="Lideta School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Lideta School')
-
-? 'selected' : ''; ?>>Lideta School</option>
+            <option value="Lideta School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Lideta School')? 'selected' : ''; ?>>Lideta School</option>
             <option value="Menilik School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Menilik School') ? 'selected' : ''; ?>>Menilik School</option>
             <option value="Akaki School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Akaki School') ? 'selected' : ''; ?>>Akaki School</option>
             <option value="Arada School" <?php echo (isset($form_data['school_name']) && $form_data['school_name'] === 'Arada School') ? 'selected' : ''; ?>>Arada School</option>
@@ -164,5 +164,6 @@ $conn->close();
 
         <input type="submit" value="Register">
     </form>
+  </div>
 </body>
 </html>
